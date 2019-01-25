@@ -42,5 +42,18 @@ class Solution:
 
         return k
 
-x = Solution()
-print(x.lengthOfLongestSubstring('pwwkew'))
+"""
+https://leetcode.com/problems/longest-substring-without-repeating-characters/discuss/1731/A-Python-solution-85ms-O(n)
+好的解法，O（n）
+"""
+def lengthOfLongestSubstring(s):
+    start = maxLength = 0   #start为子字符串起始位置，maxLength记录最大长度
+    usedChar = {}           #字典，记录子字符串中每个字符及其位置
+    for i in range(len(s)):
+        if s[i] in usedChar and start<=usedChar[s[i]]:
+            start = usedChar[s[i]]+1
+        else:
+            maxLength = max(maxLength, i-start+1)
+        
+        usedChar[s[i]] = i
+    return maxLength
