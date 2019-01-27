@@ -15,7 +15,10 @@ Example 2:
 
     The median is (2 + 3)/2 = 2.5
 """
-
+"""
+Thanks to a good idea from MissMary 
+https://leetcode.com/problems/median-of-two-sorted-arrays/discuss/2481/Share-my-O(log(min(mn))-solution-with-explanation
+"""
 class Solution:
     def findMedianSortedArrays(self, nums1, nums2):
         """
@@ -32,10 +35,10 @@ class Solution:
         while imin <= imax:
             i = (imin + imax)//2
             j = half_len-i
-            if i<m and j>0 and nums2[j-1]>nums1[i]:
+            if i<m  and nums2[j-1]>nums1[i]:
                 #i is too small, insrease it
                 imin = i+1
-            elif i>0 and j<m and nums1[i-1]>nums2[j]:
+            elif i>0 and nums1[i-1]>nums2[j]:
                 #i is too big, decrease it
                 imax = i-1
             else:
@@ -55,5 +58,3 @@ class Solution:
                 #return when m+n is even
                 return (min_of_right+max_of_left)/2.0
 
-x = Solution()
-print(x.findMedianSortedArrays([1,2], [3,4]))
