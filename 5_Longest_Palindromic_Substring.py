@@ -23,7 +23,7 @@ class Solution:
         :rtype: str
         """
         if len(s)==0:
-        	return 0
+        	return s
         maxLen=1
         start=0
         for i in range(1, len(s)):
