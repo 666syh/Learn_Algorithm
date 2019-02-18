@@ -48,7 +48,14 @@ Example 5:
     Output: -2147483648
     Explanation: The number "-91283472332" is out of the range of a 32-bit signed integer.Thefore INT_MIN (−231) is returned.
 """
-
+"""
+（60ms）
+主要是条件一定要找好，不能有漏掉的情况：
+    “  +-123 ”  --0
+    “  0-1  ”   --0
+    “  +0 123”  --0
+"""
+'''
 class Solution:
     def myAtoi(self, str: 'str') -> 'int':
         INT_MAX = 2**31-1
@@ -100,3 +107,20 @@ class Solution:
 
 x = Solution()
 print(x.myAtoi("   0 123"))
+'''
+"""
+先分割掉空白字符会提升速度（56ms）
+"""
+def myAtoi(s):
+    ls = list(s.strip())
+    if len(ls) == 0 : 
+        return 0
+    sign = -1 if ls[0] == '-' else 1
+    if ls[0] in ['-','+'] : del ls[0]
+    ret, i = 0, 0
+    while i < len(ls) and ls[i].isdigit() :
+        ret = ret*10 + ord(ls[i]) - ord('0')
+        i += 1
+    return max(-2**31, min(sign * ret,2**31-1))
+
+print(myAtoi(""))
