@@ -20,13 +20,13 @@ For the purpose of this problem, assume that your function returns 0 when the re
 
 """
 """
-正常思维，反转字符串，很慢
+正常思维，int->str->int，反转字符串，很慢
+"""
 """
 class Solution:
     def reverse(self, x: 'int') -> 'int':
         up = -2**31
-        down = 2**31-1
-        if(x < up or x > down):
+        if(x < up or x > -up-1):
             return 0
         s = str(x)
         result = ""
@@ -35,9 +35,26 @@ class Solution:
             s = s[1:]
         result += s[::-1]
         a = int(result)
-        if(a < up or a > down):
+        if(a < up or a > -up-1):
             return 0
         return a
 
 x = Solution()
 print(x.reverse(0))
+"""
+"""
+int->int faster than before
+"""
+def reverse(x: 'int') -> 'int':
+    result = 0
+    if x<0:
+        symbol = -1
+        x = -x
+    else:
+        symbol = 1
+    while x:
+        result = result*10+x%10
+        x//=10
+    return 0 if result > pow(2, 31) else result * symbol
+
+print(reverse(123))
