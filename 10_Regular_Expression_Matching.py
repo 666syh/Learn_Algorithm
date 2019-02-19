@@ -45,68 +45,32 @@ Example 5:
     Output: false
 """
 class Solution:
-    def isMatch(self, s: 'str', p: 'str') -> 'bool':
-        '''
-        从前往后遍历，但是会错过 s='aaa',p='a*a'
-        '''
-        '''
-        index = 0
-        i = 0
-        while i < len(p):
-            if index >= len(s):
-                if p[i] == '*':
-                    i+=1
-                    continue
-                elif i+1<len(p) and p[i+1] == '*':
-                    i+=2
-                    continue
+    def isMatch(self, text, pattern):
+        #dp数组
+        memo = {}
+        def dp(i, j):
+            #判断是否已经在数组中（之前计算过），若在直接返回
+            if (i, j) not in memo:
+                #p已遍历完，s是否也遍历完
+                if j == len(pattern):
+                    ans = i == len(text)
+                #若p未遍历完
                 else:
-                    return False
-            if p[i] == s[index] or p[i] == '.':
-                i+=1
-                index+=1
-            elif p[i] == '*':
-                i-=1
-            else:
-                if i+1<len(p) and p[i+1] == '*':
-                    i+=2
-                else:
-                    return False
-        if index < len(s):
-            return False
-        else:
-            return True
-        '''
-        return self.helper(s, 0, p, 0)
-        
-    def match(self, s, i, p, j):
-        #越界，返回false
-        if i == len(s) or j == len(p):
-            return False
-        
-        #s[i]和p[j]是否匹配
-        return p[j] == '.' or s[i] == p[j]
-    
-    def helper(self, s, i, p, j):
-        # 遍历完毕
-        if j == len(p):
-            return i == len(s)
-        
-        if i > len(s):
-            return False
-        
-        # 1. 如果后面字符p[j+1]是*的话,
-        #       判断当前字符是否匹配，如果匹配，i+=1
-        #           如果不匹配，j+=2
-        if j < len(p)-1 and p[j+1] == '*':
-            return (self.match(s, i, p, j) and self.helper(s, i+1, p, j)) or self.helper(s, i, p, j+2)
-        
-        # 2. 当前字符是否匹配，匹配就缩小范围（向后移动）
-        if self.match(s, i, p, j):
-            return self.helper(s, i+1, p, j+1)
-        
-        # 3. 无匹配
-        return False
+                    #假设当前s字符串为：yS
+                    #当前p字符串为：xzP
+                    #若s也未遍历完，判断x与y是否相等
+                    first_match = i < len(text) and pattern[j] in {text[i], '.'}
+                    #如果z是‘*’，那么判断P与yS是否匹配或者S和xzP是否匹配
+                    if j+1 < len(pattern) and pattern[j+1] == '*':
+                        ans = dp(i, j+2) or first_match and dp(i+1, j)
+                    #如果z不是‘*’，且x与y相等的话，去掉x与y，判断zP与S
+                    else:
+                        ans = first_match and dp(i+1, j+1)
+                #将判断过的保存在dp数组中
+                memo[i, j] = ans
+            return memo[i, j]
+
+        return dp(0, 0)
 
 x = Solution()
 print(x.isMatch("aaa", "a*a"))
