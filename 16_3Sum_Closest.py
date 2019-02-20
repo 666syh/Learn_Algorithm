@@ -11,16 +11,21 @@ Example:
 
 class Solution:
     def threeSumClosest(self, nums: 'List[int]', target: 'int') -> 'int':
+        #先排好序
         nums.sort()
         m = 99999
         for i in range(len(nums)-2):
+            #两点法
             l = i+1
             r = len(nums)-1
             while(l<r):
                 res = nums[i]+nums[l]+nums[r]
+                #如果距离比之前的数据离目标位置更近
                 if(abs(target-nums[i]-nums[l]-nums[r])<m):
+                    #暂存
                     t = res
                     m = abs(target-nums[i]-nums[l]-nums[r])
+                #两点法更新位置
                 if res<target:
                     l+=1
                 elif res>target:
