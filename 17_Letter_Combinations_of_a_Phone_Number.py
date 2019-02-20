@@ -14,26 +14,42 @@ Example:
 Note:
 Although the above answer is in lexicographical order, your answer could be in any order you want.
 """
+"""
+https://leetcode.com/problems/letter-combinations-of-a-phone-number/solution/
+backtracking--回溯法（树型结构）
+"""
 class Solution:
-    def letterCombinations(self, digits: 'str') -> 'List[str]':
-        d = {'2':"abc", '3':"def", '4':"ghi", '5':"jkl", '6':"mno", '7':"pqrs", '8':"tuv", '9':"wxyz"}
-        l = len(digits)
-        if l==0:
-            return []
-        if l==1:
-            return list(d[digits])
-        lt = list(d[digits[0]])
-        for i in range(len(digits)-1):
-            lt = self.l2l(lt, list(d[digits[i+1]]))
-        return lt
-        
-
-    def l2l(self, l1:'list', l2:'list'):
-        l3 = []
-        for i in range(len(l1)):
-            for j in range(len(l2)):
-                l3.append(l1[i]+l2[j])
-        return l3
+    def letterCombinations(self, digits):
+        """
+        :type digits: str
+        :rtype: List[str]
+        """
+        phone = {'2': ['a', 'b', 'c'],
+                 '3': ['d', 'e', 'f'],
+                 '4': ['g', 'h', 'i'],
+                 '5': ['j', 'k', 'l'],
+                 '6': ['m', 'n', 'o'],
+                 '7': ['p', 'q', 'r', 's'],
+                 '8': ['t', 'u', 'v'],
+                 '9': ['w', 'x', 'y', 'z']}
+                
+        def backtrack(combination, next_digits):
+            # 如果后边没有更多的数字
+            if len(next_digits) == 0:
+                # 将当前的到的结果加入到最终的结果集
+                output.append(combination)
+            # 如果后边还有数字的话
+            else:
+                # 迭代这个数字对应的每一个字母
+                for letter in phone[next_digits[0]]:
+                    # 将每一个字母都加入到之前的字符串之后，进行递归处理
+                    backtrack(combination + letter, next_digits[1:])
+                    #回溯
+                    
+        output = []
+        if digits:
+            backtrack("", digits)
+        return output
 
 x = Solution()
-print(x.letterCombinations("234"))
+print(x.letterCombinations("23"))
