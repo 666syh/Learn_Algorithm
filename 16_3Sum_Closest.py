@@ -12,7 +12,7 @@ Example:
 class Solution:
     def threeSumClosest(self, nums: 'List[int]', target: 'int') -> 'int':
         nums.sort()
-        m = 9999
+        m = 99999
         for i in range(len(nums)-2):
             l = i+1
             r = len(nums)-1
@@ -27,7 +27,9 @@ class Solution:
                     r-=1
                 else:
                     break
+            if t == target:
+                break
         return t
 
 x = Solution()
-print(x.threeSumClosest([1,2,4,8,16,32,64,128], 82))
+print(x.threeSumClosest([-55,-24,-18,-11,-7,-3,4,5,6,9,11,23,33], 0))
