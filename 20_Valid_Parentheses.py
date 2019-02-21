@@ -49,6 +49,6 @@ class Solution:
             return True
         else:
             return False
-
+            
 x = Solution()
 print(x.isValid("()[]"))
