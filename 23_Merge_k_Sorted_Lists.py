@@ -17,40 +17,39 @@ class ListNode:
     def __init__(self, x):
         self.val = x
         self.next = None
+"""
+https://leetcode.com/problems/merge-k-sorted-lists/solution/
+Approach 5
+归并算法
+"""
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        amount = len(lists)
+        interval = 1
+        while interval < amount:
+            for i in range(0, amount - interval, interval * 2):
+                lists[i] = self.merge2Lists(lists[i], lists[i + interval])
+            interval *= 2
+        return lists[0] if amount > 0 else lists
 
-"""
-将数组分为两半，对每半进行合并
-"""
-class Solution:
-    def mergeKLists(self, lists: 'List[ListNode]') -> 'ListNode':
-        
-        def recursion(lists: 'List[ListNode]'):
-            k = len(lists)
-            if k == 0:
-                return None
-            #如果长度为1，不动
-            elif k == 1:
-                return lists[0]
-            #如果长度为2，进行合并
-            elif k == 2:
-                p, q = lists[0], lists[1]
-                l = ListNode(0)
-                h = l
-                while p!=None and q!=None:
-                    if p.val <= q.val:
-                        h.next = p
-                        p = p.next
-                    else:
-                        h.next = q
-                        q = q.next
-                    h = h.next
-                if p!=None:
-                    h.next = p
-                elif q!=None:
-                    h.next = q
-                return l.next
-            #否则接着分割
+    def merge2Lists(self, l1, l2):
+        head = point = ListNode(0)
+        while l1 and l2:
+            if l1.val <= l2.val:
+                point.next = l1
+                l1 = l1.next
             else:
-                return recursion([recursion(lists[:k//2]),recursion(lists[k//2:k])])
-        return recursion(lists)
-
+                point.next = l2
+                l2 = l1
+                l1 = point.next.next
+            point = point.next
+        if not l1:
+            point.next=l2
+        else:
+            point.next=l1
+        return head.next
+       
