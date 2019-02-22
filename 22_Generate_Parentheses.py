@@ -12,30 +12,22 @@ For example, given n = 3, a solution set is:
   "()()()"
 ]
 """
-
+"""
+https://leetcode.com/problems/generate-parentheses/solution/
+backtrack
+"""
 class Solution:
     def generateParenthesis(self, n: 'int') -> 'List[str]':
-        results = []
-        self.helper(0, 0, n, '', results)
-        return results
-    
-    def helper(self, l: 'int', r: 'int', n: 'int', s :'str', results: 'List[str]'):
-        if s in results:
-            return
-        if l==n and r==n and s not in results:
-            results.append(s)
-            return
-        t = s
-        if l<n:
-            s+='('
-            l+=1
-            self.helper(l, r, n, s, results)
-            l-=1
-        if r<l and r<n:
-            t+=')'
-            r+=1
-            self.helper(l, r, n, t, results)
-            r-=1
+        ans = []
+        def backtrack(s = '', left = 0, right = 0):
+            if len(s) == 2*n:
+                ans.append(s)
+            if left<n:
+                backtrack(s+'(', left+1, right)
+            if right<left:
+                backtrack(s+')', left, right+1)
+        backtrack()
+        return ans
 
 x = Solution()
-print(x.generateParenthesis(2))
+print(x.generateParenthesis(3))
