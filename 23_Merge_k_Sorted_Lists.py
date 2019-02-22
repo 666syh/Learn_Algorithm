@@ -18,6 +18,9 @@ class ListNode:
         self.val = x
         self.next = None
 
+"""
+将数组分为两半，对每半进行合并
+"""
 class Solution:
     def mergeKLists(self, lists: 'List[ListNode]') -> 'ListNode':
         
@@ -25,8 +28,10 @@ class Solution:
             k = len(lists)
             if k == 0:
                 return None
+            #如果长度为1，不动
             elif k == 1:
                 return lists[0]
+            #如果长度为2，进行合并
             elif k == 2:
                 p, q = lists[0], lists[1]
                 l = ListNode(0)
@@ -44,6 +49,7 @@ class Solution:
                 elif q!=None:
                     h.next = q
                 return l.next
+            #否则接着分割
             else:
                 return recursion([recursion(lists[:k//2]),recursion(lists[k//2:k])])
         return recursion(lists)
