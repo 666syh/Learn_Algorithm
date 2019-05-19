@@ -35,15 +35,18 @@ Example 2:
 class Solution:
     def combinationSum2(self, candidates, target):
         results = []
+        #先排序
         candidates.sort()
-        self.search(candidates, target, results, [])
+        self.search(candidates, target, results, [], 0)
         return results
-        
-    def search(self, candidates, target, results, result):
+    
+    #添加start
+    def search(self, candidates, target, results, result, start):
         if candidates!=[]:
-            for i in range(len(candidates)):
+            for i in range(start, len(candidates)):
                 temp = target
                 if candidates[i]<=temp:
+                    #减去已经取到的值
                     temp -= candidates[i]
                     if temp == 0:
                         l = result+[candidates[i]]
@@ -51,7 +54,7 @@ class Solution:
                         if l not in results:
                             results.append(l)
                     else:
-                        self.search(candidates[:i]+candidates[i+1:], temp, results, result+[candidates[i]])
+                        self.search(candidates[:i]+candidates[i+1:], temp, results, result+[candidates[i]], i)
 
 
 x = Solution()
